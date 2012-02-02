@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+//
+// Records 10 seconds worth of profiling data
+// Ctrl-c to kill it
+//
+
+var profiler = require('profiler')
+profiler.resume();
+var i = 0;
+
+var interval = setInterval(function () {
+  for(var ii=0; ii < 10000; ii++) {
+    console.log(JSON.stringify({tickId:++i}));
+  }
+}, 100);
+
+setTimeout(function () {
+  profiler.pause();
+  clearInterval(interval);
+},1000 * 10);

@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+//
+// Out of band error:
+//   Force process into an "idle state" by a bad cleanup of an uncaught exception
+//
+
+function x() {
+  console.log('The uncaughtException is a lie!')
+}
+
+//
+// Keep the process alive,
+// Do something with shared state
+//
+setInterval(function() {
+  x()
+}, 1000)
+
+//
+// Totally badass and terrible idea
+//
+process.on('uncaughtException', function (err) {
+  //
+  // Should do cleanup and exit but don't for some reason
+  // Some evil libraries do this junk, kick them
+  //
+});
+
+//
+// Our error
+//
+setTimeout(function() {
+  //
+  // Mess with shared state
+  //
+  x=null;
+  x();
+}, 1000)

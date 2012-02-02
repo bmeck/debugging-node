@@ -1,0 +1,16 @@
+#!/usr/bin/env node --prof
+//
+// Records all profiling data until it is killed
+// Ctrl-c to kill it
+//
+
+var i = 0
+var interval = setInterval(function () {
+  for(var ii = 0; ii < 100000; ii++) {
+    console.log(JSON.stringify({tickId:++i}));
+  }
+}, 100);
+
+setTimeout(function(){
+  clearInterval(interval)
+}, 1000 * 10)

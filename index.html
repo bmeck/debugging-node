@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Debugging Node</title>
+	<meta name="viewport" content="width=1024, user-scalable=no">
+	
+	<!-- Replace path with correct path to deck.core.css. -->
+	<link rel="stylesheet" href="./core/deck.core.css" type="text/css">
+	
+	<!-- Any other extension CSS files go here. -->
+	
+	<!-- Replace path with correct path to Modernizr file. -->
+	<script src="./modernizr.custom.js"></script>
+</head>
+<body class="deck-container">
+
+<!-- Create any number of elements with class slide within the container -->
+<section class="slide">
+	<h1>Debugging Node<a href="http://bmeck.github.com/debugging-node">&rArr;</a></h1>
+</section>
+<section class="slide">
+	<h2>Who am I?</h2>
+	<ul>
+		<li>Nodejitsu Dev Ops Guy</li>
+		<li>Core Contributor</li>
+		<li>Guy with way too much time spent programming</li>
+	</ul>
+</section>
+<section class="slide">
+	<h1><img src="./core/lost-trust.jpg"></h1>
+</section>
+<section class="slide">
+	<h1>Testing</h1>
+</section>
+<section class="slide">
+	<h2>Testing JS?</h2>
+	<h3>Where?</h3>
+	<ul>
+		<li>Browser</li>
+		<li>Server</li>
+	</ul>
+	<h3>Tooling</h3>
+	<ul>
+		<li>Testing</li>
+		<li>Debugging</li>
+		<li>Profiling</li>
+	</ul>
+</section>
+<section class="slide">
+	<h2>Testing Tools</h2>
+	<ul>
+		<li>Travis CI</li>
+		<li>Testling</li>
+	</ul>
+	<h2>Frameworks</h2>
+	<ul>
+		<li>Vows</li>
+		<li>Mocha</li>
+		<li>Node-TAP</li>
+	</ul>
+</section>
+<section class="slide">
+	<h2>Conventions</h2>
+	<ul>
+		<li><code>npm test</code> (see <code>npm help scripts</code>)</li>
+		<li>If it is on npm, have Travis set up</li>
+		<li><code>devDependencies</code> (see <code>npm help json</code>)</li>
+	</ul>
+</section>
+<section class="slide">
+	<h2>Travis CI<a href="http://travis-ci.org">&rArr;</a></h2>
+	<ul>
+		<li>Cloud based CI</li>
+		<li>Github Hooks</li>
+		<li>.travis.yml config file</li>
+	</ul>
+	<pre>language: node_js
+node_js:
+  - 0.4
+  - 0.6
+  - 0.7
+
+notifications:
+  email:
+    - travis@nodejitsu.com</pre>
+</section>
+<section class="slide">
+	<h2>Testling<a href="http://testling.com">&rArr;</a></h2>
+	<ul>
+		<li>Cloud based Browser Testing</li>
+		<li>Cookies are problematic</li>
+		<li>Will not load DOM for you. Tests need to generate proper structures rather than rely on html files.</li>
+		<li>Easy.</li>
+	</ul>
+</section>
+<section class="slide">
+	<h2>Vows<a href="http://vowsjs.org/">&rArr;</a></h2>
+	<ul>
+		<li>Node based Testing</li>
+		<li>BDD</li>
+	</ul>
+	<pre>vows.describe('mylib/user').addBatch({
+  'Using #save()': {
+    topic: function () {
+      var user = new User('luna');
+      user.save(this.callback);
+    },
+    'should save without error': function (err) {
+      assert(err.isNull);
+    }
+  }
+}).export(module);</pre>
+</section>
+<section class="slide">
+	<h2>Mocha<a href="http://visionmedia.github.com/mocha/">&rArr;</a></h2>
+	<ul>
+		<li>Node and Browser based Testing</li>
+		<li>BDD and TDD mashup</li>
+	</ul>
+	<pre>describe('User', function(){
+  describe('#save()', function(){
+    it('should save without error', function(done){
+      var user = new User('Luna');
+      user.save(function(err){
+        if (err) throw err;
+        done();
+      });
+    })
+  })
+})</pre>
+</section>
+<section class="slide">
+	<h2>Node TAP<a href="https://github.com/isaacs/node-tap">&rArr;</a></h2>
+	<ul>
+		<li>Node and Browser based Testing</li>
+		<li>Extremely Simple</li>
+		<li>TDD</li>
+	</ul>
+	<pre>test('User #save() saves without error', function(t) {
+  var user = new User('luna');
+  user.save(function (err) {
+     t.equal(err, null, 'err should be null');
+     t.end();
+  });
+});</pre>
+</section>
+<section class="slide">
+  <h1><img src="./core/code-broken.jpg"></h1>
+</section>
+<section class="slide">
+  <h1>Debugging</h1>
+</section>	
+<section class="slide">
+  <h2>Built-in Debugger</h2>
+  <ul>
+    <li><code>node debug app.js</code></li>
+    <li>First party (stays up to date with master)</li>
+    <li>Can be piped commands over tcp (scriptable)</li>
+    <li>Always there, send SIGUSR1 to the process!</li>
+    <li>Can be used without the repl via --debug</li>
+  </ul>
+</section>	
+<section class="slide">
+  <h2>Node-inspector<a href="https://github.com/dannycoates/node-inspector">&rArr;</a></h2>
+  <ul>
+    <li>NPM Executable</li>
+    <li>GUI!</li>
+  </ul>
+  <img src="./core/node-inspector.png" style="height: 50%">
+</section>	
+<section class="slide">
+  <h2>Editors</h2>
+  <ul>
+    <li>Cloud9<a href="http://c9.io">&rArr;</a></li>
+    <li>Komodo<a href="http://www.activestate.com/komodo-edit">&rArr;</a></li>
+    <li>Eclipse (haven't used)</li>
+  </ul>
+</section>
+<section class="slide">
+  <h2>System Tracer</h2>
+  <ul>
+    <li><code>NODE_DEBUG</code> environmental variable</li>
+    <li>Useful for quick sanity checks</li>
+  </ul>
+  <pre>$ NODE_DEBUG=net,http,sys,util node ./debugging-examples/tracer 
+NET: bind to 0.0.0.0
+NET: onconnection
+HTTP: SERVER new http connection
+HTTP: server response shouldKeepAlive: true
+HTTP: outgoing message end.
+NET: destroy
+NET: close
+HTTP: server socket close</pre>
+</section>
+<section class="slide">
+  <h1><img src="./core/code-slow.jpg"></h1>
+</section>
+<section class="slide">
+  <h1>Profiling</h1>
+</section>	
+<section class="slide">
+  <h2>Convention</h2>
+  <ul>
+    <li>Do not use with the debugger</li>
+    <li>Dump to v8.log</li>
+    <li>NPM's <code>profiler</code> module has a binary <code>nprof</code> for showing meaningful summaries</li>
+  </ul>
+</section>
+<section class="slide">
+  <h2>Built-in Profiler</h2>
+  <ul>
+    <li><code>node --prof ./debugging-examples/using-cli-profiler</code></li>
+    <li>cannot be turned on or off</li>
+  </ul>
+</section>
+<section class="slide">
+  <h2>The Profiler Module<a href="https://github.com/bnoordhuis/node-profiler">&rArr;</a></h2>
+  <ul>
+    <li><code>npm install profiler</code></li>
+    <li><code>node --prof --prof_lazy ./debugging-examples/using-profiler-module</code></li>
+    <li>can turned on or off!</li>
+    <li>v8 bug preventing usefulness on 0.6.x</li>
+  </ul>
+</section>
+<section class="slide">
+  <h1><img src="./core/questions.jpg"></h1>
+</section>
+
+
+<!-- Other extension HTML snippets go here, at the bottom of the deck container. -->
+
+<!-- Update these paths to point to the correct files. -->
+<script src="./jquery.min.js"></script>
+<script src="./core/deck.core.js"></script>
+
+<!-- Add any other extension JS files here -->
+
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+	$(function() {
+		$.deck('.slide');
+	});
+</script>
+</body>
+</html>

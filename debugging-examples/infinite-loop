@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+for(;;);
+console.log(1)

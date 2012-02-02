@@ -1,0 +1,7 @@
+#!/usr/bin/env node debug
+
+if (process.argv[2] === 'persistent') {
+    setInterval(function () {
+        debugger;
+    }, 1000 * 10)
+}

@@ -1,0 +1,13 @@
+{
+  "name": "debugging-node",
+  "author": "bradleymeck",
+  "description": "presentation on how to handle testing / debugging / profiling Node.js",
+  "private": true,
+  "version": "0.0.0",
+  "dependencies": {
+    "profiler": "1.1.0"
+  },
+  "engines": {
+    "node": "0.6.x"
+  }
+}
